@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Групповой чат {{ group.name }}</title>
+    <style>
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .message {
+            margin-bottom: 5px;
+            padding: 5px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+         .self{
+            background-color: #79acec !important;
+        }
+
+         .menu{
+            position: absolute;
+            left:50%;
+            width: fit-content;
+        }
+    </style>
+    {% include 'notify.html' %}
+    {% block notify_style %}
+    {% endblock %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.3/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='js/GroupChat.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/notify.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/notify-access.js') }}"></script>
+</head>
+<body>
+    {% block notify_content %}
+    {% endblock %}
+
+
+    <div class="menu">
+        <input type="hidden" name="{{ sender.id }}" id="access-sender-id" value="{{ sender.id }}">
+        <input type="hidden" name="{{ group.id }}" id="access-receiver-id" value="{{ group.id }}">
+        <input type="hidden" name="group" id="type" value="group">
+        <input type="button" value="" id="menu-notify-access-button">
+    </div>
+
+
+    <h1>Вы - {{ sender.name }}</h1>
+    <h1>Групповой чат {{ group.name }}</h1>
+
+    <div class="chat-container" id="messages">
+        {% for message in messages %}
+            <div class="{% if message.sender_id == sender.id %}message self{% else %}message{% endif %}">
+                {{ message.sender_name }}: {{ message.text }}
+            </div>
+        {% endfor %}
+    </div>
+
+    <form>
+        <input type="hidden" id="sender-id" value="{{ sender.id }}">
+        <input type="hidden" id="group-id" value="{{ group.id }}">
+        <input type="text" id="message">
+        <input id='send_msg' type="button" value="Отправить">
+    </form>
+</body>
+</html>
