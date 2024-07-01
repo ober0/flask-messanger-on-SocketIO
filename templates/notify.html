@@ -1,0 +1,47 @@
+{% block notify_style %}
+    <style>
+        .notification-container{
+            background-color: #cccccc;
+            color: black;
+            font-size: 20px;
+            width: fit-content;
+            position: absolute;
+            text-align: center;
+            left: 50%;
+            transform: translate(-50%);
+            border: #7e7e7e 1px solid;
+            border-radius: 5%;
+
+        }
+        .notification-container:hover{
+            background-color: #7e7e7e;
+            border-color: #595757;
+        }
+        .container{
+            margin: 15px;
+        }
+        .hide{
+            display: none;
+        }
+    </style>
+{% endblock %}
+
+
+
+{% block notify_content %}
+    <div class="notification-container hide" id="notification-container">
+        <div class="container">
+            <input type="hidden" name="path" id="path1">
+            <div class="notification-title" id="type1"></div>
+            <div class="notification-title" id="from1"></div>
+            <div class="notification-message" id="message1"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('notification-container').addEventListener('click', function () {
+            window.location.href = document.getElementById('path1').value
+        })
+    </script>
+{% endblock %}
+
